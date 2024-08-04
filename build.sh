@@ -18,4 +18,3 @@ cp -r dist/* ../src/frontend
 
 cd ..
 
-npm run start
