@@ -23,7 +23,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       // console.log(storedToken, storedUser, typeof storedToken, typeof storedUser);
       // Assuming you have a function to parse user data from token
       const parsedUser = parseUserFromToken(storedToken);
-      console.log(parsedUser);
       setAuthStatus(true);
       setUserInfo(parsedUser);
     }
@@ -32,7 +31,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const parseUserFromToken = (token: string) => {
     try {
       const decodedToken = jwtDecode(token) as any;
-      console.log(decodedToken);
       return JSON.stringify(decodedToken.userData);
     } catch (error) {
       console.error("Error parsing token:", error);
@@ -41,7 +39,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const login = async (credentials: any) => {
-    console.log(credentials);
     try {
       // Make backend call to login
       const response = await axios.post(`${BACKEND_URL}api/login`, credentials);
@@ -49,14 +46,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (response.status === 200) {
         const data = await response.data;
         const { accessToken } = data;
-        console.log(data);
         localStorage.setItem("token", accessToken);
         let parsedUser = parseUserFromToken(accessToken);
         if (parsedUser) localStorage.setItem("user", parsedUser);
 
         setAuthStatus(true);
         setUserInfo(parsedUser);
-        console.log(userInfo);
         return true;
       } else {
         // Handle login error
