@@ -30,4 +30,10 @@ Before installing and running the application, you'll need to have Node.js and n
 
 4. Start the application
    ```bash
-   npm run start 
+   npm run start
+
+### Oppurtunities to improve -
+
+1. Search and sort
+2. Realtime notification using socket.io, I have worked on this in current company
+3. Test cases
