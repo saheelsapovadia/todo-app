@@ -1,0 +1,21 @@
+routes
+    login
+    signup
+    todo
+    ~profile
+
+interface
+    task
+    column
+    data
+    user
+
+actions
+    fetch all tasks
+    save all tasks
+    save 1 task
+    delete 1 task
+
+state / context
+    authentication
+    loader
