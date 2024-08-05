@@ -17,12 +17,12 @@ Before installing and running the application, you'll need to have Node.js and n
 1. Clone the repository using Git:
 
    ```bash
-   git clone
+   git clone git@github.com:saheelsapovadia/todo-app.git
 
 2. Navigate to the project directory:
   
    ```bash
-   cd your-repo
+   cd todo-app
 
 3. Install dependencies and build the frontend
    ```bash
