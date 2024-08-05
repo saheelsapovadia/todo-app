@@ -13,7 +13,6 @@ const SignupPage = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [invalidCreds, setInvalidCreds] = useState("");
 
   const handleEmail = (email: string) => {
     if (validator.isEmail(email)) {
