@@ -18,4 +18,5 @@ export const getReadableDateTime = (date: Value) => {
   });
 };
 
-export const BACKEND_URL = window.location.href;
+// export const BACKEND_URL = window.location.href;
+export const BACKEND_URL = "http://localhost:8080/";

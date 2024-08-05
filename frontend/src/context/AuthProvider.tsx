@@ -6,7 +6,7 @@ import { BACKEND_URL } from "../Utilities/generate";
 interface AuthContextType {
   authStatus: boolean;
   userInfo: any | null; // Replace any with appropriate user type
-  login: (credentials: any) => Promise<void>;
+  login: (credentials: any) => Promise<boolean | undefined>;
   logout: () => void;
 }
 
@@ -57,8 +57,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setAuthStatus(true);
         setUserInfo(parsedUser);
         console.log(userInfo);
+        return true;
       } else {
         // Handle login error
+        return false;
       }
     } catch (error) {
       // Handle error

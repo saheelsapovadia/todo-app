@@ -38,10 +38,10 @@ const TodoPage = () => {
   const [taskEditMode, setTaskEditMode] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
 
+  const [loading, setLoading] = useState(false);
   const { userInfo } = useAuth();
 
   useEffect(() => {
-    console.log("user info", userInfo);
     if (userInfo) {
       let user = JSON.parse(userInfo);
       getTodos(user.uid);
@@ -57,8 +57,6 @@ const TodoPage = () => {
 
   const onDragOver = (event: DragOverEvent) => {
     const { active, over } = event;
-    console.log(active);
-    console.log(over);
     if (!over) {
       return;
     }
@@ -104,7 +102,6 @@ const TodoPage = () => {
   };
 
   const onDragEnd = (event: DragEndEvent) => {
-    console.log("drag end", event);
     const { active } = event;
 
     updateTodo(active.data.current?.todo);
@@ -130,10 +127,8 @@ const TodoPage = () => {
       userId: JSON.parse(userInfo).uid,
       ...newTask,
     };
-    console.log(newTodo);
     axiosInstance.post(`${BACKEND_URL}api/todo`, newTodo).then((response) => {
       if (response.status === 200) {
-        console.log("new todo", response.data);
         setTasks([...tasks, newTask]);
         setShowDetail(false);
       }
@@ -148,7 +143,6 @@ const TodoPage = () => {
         const newTasks = [...tasks];
         newTasks[taskIndex] = updatedTask;
         setTasks(newTasks);
-        console.log("updated task", updatedTask);
         setShowDetail(false);
       }
     });
@@ -156,10 +150,12 @@ const TodoPage = () => {
 
   const updateTodo = async (todo: TodoType): Promise<boolean> => {
     try {
+      setLoading(true);
       let res = await axiosInstance.put(
         `${BACKEND_URL}api/todo/${todo.uid}`,
         todo
       );
+      setLoading(false);
       return res.status === 200;
     } catch (error) {
       console.error("Error updating task", error);
@@ -168,28 +164,33 @@ const TodoPage = () => {
   };
 
   const getTodos = (userId: String) => {
-    console.log(BACKEND_URL);
+    setLoading(true);
     axiosInstance
       .get(`${BACKEND_URL}api/getAllTodos/${userId}`)
       .then((response) => {
-        console.log("user data", response.data);
         setTasks(response.data);
+        setLoading(false);
       });
   };
 
   const deleteTask = (id: String) => {
+    setLoading(true);
     axiosInstance.delete(`${BACKEND_URL}api/todo/${id}`).then((response) => {
       if (response.status == 204) {
-        console.log("deleted task", response.data);
         setTasks(tasks.filter((task) => task.uid !== id));
         setShowDetail(false);
       }
+      setLoading(false);
     });
   };
 
   return (
     <>
-      <AddTaskButton onAddTask={handleAddTask} openModal={openAddNewTask} />
+      <AddTaskButton
+        onAddTask={handleAddTask}
+        openModal={openAddNewTask}
+        loading={loading}
+      />
       <DndContext
         onDragStart={onDragStart}
         onDragOver={onDragOver}
